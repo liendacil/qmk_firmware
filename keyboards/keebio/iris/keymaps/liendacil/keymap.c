@@ -4,15 +4,39 @@
 #define _NUMS_NAV 1
 #define _SYMS 2
 #define _NUMPAD 3
-#define _SET 4
+#define _SPECIAL_CHAR 4
+#define _SET 5
 
 enum custom_keycodes {
     BASE = SAFE_RANGE,
     NUMS,
     SYMS,
     NUMPAD,
+		SPECIAL_CHAR,
     SET,
 };
+
+
+/* Add unicode for Umlaute */
+enum unicode_names {
+		AE_UPPER,
+		AE_LOWER,
+		UE_UPPER,
+		UE_LOWER,
+		OE_UPPER,
+		OE_LOWER,
+};
+
+const uint16_t PROGMEM unicode_map[] = {
+		[AE_UPPER] = 0x00C4,
+		[AE_LOWER] = 0x00E4,
+		[UE_UPPER] = 0x00FC,
+		[UE_LOWER] = 0x00DC,
+		[OE_UPPER] = 0x00D6,
+		[OE_LOWER] = 0x00F6,
+};
+
+
 
 /* Custom Keycodes */
   /* Base Layer */
@@ -22,6 +46,11 @@ enum custom_keycodes {
 #define C_RALT_TO3 MT(MOD_RALT, TO(3))
   /* Symbols Layer */
 #define C_LALT_TO3 MT(MOD_LALT, TO(3))
+  /* Umlaute */
+#define C_AE XP(AE_LOWER, AE_UPPER)
+#define C_UE XP(UE_LOWER, UE_UPPER)
+#define C_OE XP(OE_LOWER, OE_UPPER)
+
 
 /* Keymap Configuration */
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -38,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                               KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
     /*|--------|--------|--------|--------|--------|--------|                          |--------|--------|--------|--------|--------|--------|*/
     /*|--------|--------|--------|--------|--------|--------|--------|        |--------|--------|--------|--------|--------|--------|--------|*/
-LSFT_T(KC_CAPS),KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    TO(4),            KC_NO,   KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, RSFT_T(KC_CAPS),
+LSFT_T(KC_CAPS),KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    MO(4),            TO(5),   KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, RSFT_T(KC_CAPS),
     /*|--------|--------|--------|--------|--------|--------|--------|        |--------|--------|--------|--------|--------|--------|--------|*/
                                     /*|--------|--------|--------|                |--------|--------|--------|*/
                                     KC_LGUI, LALT_T(KC_DEL), C_ENT_MO1,       C_SPC_MO2, RALT_T(KC_BSPC), KC_ESC
@@ -99,6 +128,25 @@ LSFT_T(KC_CAPS),KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_UNDS, KC_NO,            K
     /*|--------|--------|--------|--------|--------|--------|--------|        |--------|--------|--------|--------|--------|--------|--------|*/
                                     /*|--------|--------|--------|                |--------|--------|--------|*/
                                        KC_NO,   KC_NO,   KC_ENT,                   KC_SPC,  KC_P0,   KC_PDOT
+                                    /*|--------|--------|--------|                |--------|--------|--------|*/
+    ),
+
+    /* Special Characters Layer */
+    [_SPECIAL_CHAR] = LAYOUT(
+    /*|--------|--------|--------|--------|--------|--------|                          |--------|--------|--------|--------|--------|--------|*/
+       TO(0),   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                              KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+    /*|--------|--------|--------|--------|--------|--------|                          |--------|--------|--------|--------|--------|--------|*/
+    /*|--------|--------|--------|--------|--------|--------|                          |--------|--------|--------|--------|--------|--------|*/
+       KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                            	KC_NO,   C_UE,    KC_NO,   C_OE,   KC_NO,   KC_NO,
+    /*|--------|--------|--------|--------|--------|--------|                          |--------|--------|--------|--------|--------|--------|*/
+    /*|--------|--------|--------|--------|--------|--------|                          |--------|--------|--------|--------|--------|--------|*/
+       KC_NO,   C_AE,   KC_NO,   KC_NO,   KC_NO,	  KC_NO,                              KC_NO, 	 KC_NO,   KC_NO,   KC_NO, 	KC_NO, 	 KC_NO,
+    /*|--------|--------|--------|--------|--------|--------|                          |--------|--------|--------|--------|--------|--------|*/
+    /*|--------|--------|--------|--------|--------|--------|--------|        |--------|--------|--------|--------|--------|--------|--------|*/
+LSFT_T(KC_CAPS),KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS,            KC_NO,   KC_NO,   KC_NO,   KC_NO, 	 KC_NO, 	KC_NO, 	 RSFT_T(KC_CAPS),
+    /*|--------|--------|--------|--------|--------|--------|--------|        |--------|--------|--------|--------|--------|--------|--------|*/
+                                    /*|--------|--------|--------|                |--------|--------|--------|*/
+                                       KC_NO,   KC_NO,   KC_NO,                    KC_NO,   KC_NO,   KC_NO
                                     /*|--------|--------|--------|                |--------|--------|--------|*/
     ),
 
